@@ -12,7 +12,7 @@ To get started, navigate to the [VRS AnVIL](https://app.terra.bio/#workspaces/te
 - `output_vcf_name` (String): Name of annotated VCF file with its file extension (vcf.gz)
 - `seqrepo_tarball` (File, optional): Google resource path for seqrepo tarball (tar.gz). Defaults to tarball stored in the requestor pays VRS AnVIL Workspace.
 - `compute_for_ref` (boolean, optional): Whether to compute both the ref and alt allele or compute only the alt allele for each variant. Defaults to true, computing both.
-- `vrs_attributes` (boolean, optional): Whether to compute both the ref and alt allele or compute only the alt allele for each variant. Defaults to true, computing both.
+- `vrs_attributes` (boolean, optional): Whether to include VRS Allele start, end, and state or compute only VRS ID for each variant. Defaults to true, computing both.
 - `genome_assembly` (String, optional): genome assembly or genome build used by the VCF. Defaults to "GRCh38", but "GRCh37" is also supported.
 
 
