@@ -40,7 +40,7 @@ task annotate {
     Int disk_size = ceil(size(input_vcf_path, "GB") + size(seqrepo_tarball, "GB") + 10)
 
     runtime {
-        docker: "quay.io/ohsu-comp-bio/vrs-annotator:base"
+        docker: "quay.io/ohsu-comp-bio/vrs-annotator:vrs-2.0"
         disks: "local-disk " + disk_size + " SSD"
         bootDiskSizeGb: disk_size
         memory: "8G"
@@ -81,8 +81,8 @@ task annotate {
 
         # annotate and index vcf
         vrs-annotate vcf ~{input_vcf_path} \
-            --vcf_out ~{output_vcf_name} \
-            --dataproxy-uri $SEQREPO_DIR/latest \
+            --vcf-out ~{output_vcf_name} \
+            --dataproxy-uri seqrepo+file://$SEQREPO_DIR/latest \
             --assembly ~{genome_assembly} \
             $REF_FLAG \
             $VRS_ATTRIBUTES_FLAG
