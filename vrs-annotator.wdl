@@ -70,11 +70,11 @@ task annotate {
         if ~{compute_for_ref}; then
             REF_FLAG=""
         else
-            REF_FLAG="--skip_ref"
+            REF_FLAG="--skip-ref"
         fi
 
         if ~{compute_vrs_attributes}; then
-            VRS_ATTRIBUTES_FLAG="--vrs_attributes"
+            VRS_ATTRIBUTES_FLAG="--vrs-attributes"
         else
             VRS_ATTRIBUTES_FLAG=""
         fi
@@ -82,7 +82,7 @@ task annotate {
         # annotate and index vcf
         vrs-annotate vcf ~{input_vcf_path} \
             --vcf_out ~{output_vcf_name} \
-            --seqrepo_root_dir $SEQREPO_DIR/latest \
+            --dataproxy-uri $SEQREPO_DIR/latest \
             --assembly ~{genome_assembly} \
             $REF_FLAG \
             $VRS_ATTRIBUTES_FLAG
