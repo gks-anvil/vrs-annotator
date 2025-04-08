@@ -43,7 +43,7 @@ task annotate {
         docker: "quay.io/ohsu-comp-bio/vrs-annotator:vrs-2.0"
         disks: "local-disk " + disk_size + " SSD"
         bootDiskSizeGb: disk_size
-        memory: "8G"
+        memory: "16G"
     }
 
     command <<<
