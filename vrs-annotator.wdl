@@ -44,6 +44,7 @@ task annotate {
         disks: "local-disk " + disk_size + " SSD"
         bootDiskSizeGb: disk_size
         memory: "16G"
+        preemptible: 0
     }
 
     command <<<
