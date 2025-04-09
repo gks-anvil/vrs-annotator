@@ -40,7 +40,7 @@ task annotate {
     Int disk_size = ceil(3*size(input_vcf_path, "GB") + size(seqrepo_tarball, "GB") + 20)
 
     runtime {
-        docker: "quay.io/ohsu-comp-bio/vrs-annotator:vrs-2.0"
+        docker: "quay.io/ohsu-comp-bio/vrs-annotator:vrs-2.0_tabix"
         disks: "local-disk " + disk_size + " SSD"
         bootDiskSizeGb: disk_size
         memory: "16G"
@@ -52,8 +52,9 @@ task annotate {
         if [[ ~{input_vcf_path} == *.gz ]]; then
             echo "creating index for input VCF"
             sudo chown "$(whoami)" ~{input_vcf_path}
-            sudo chmod 644 ~{input_vcf_path}
-            bcftools index -t ~{input_vcf_path}
+            # sudo chmod 644 ~{input_vcf_path}
+            tabix -p vcf ~{input_vcf_path}
+            # bcftools index -t ~{input_vcf_path}
         fi
 
         # setup seqrepo
