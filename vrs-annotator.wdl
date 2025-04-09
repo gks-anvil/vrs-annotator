@@ -51,6 +51,7 @@ task annotate {
         # if compressed input VCF, create index
         if [[ ~{input_vcf_path} == *.gz ]]; then
             echo "creating index for input VCF"
+            sudo chown "$(whoami)" ~{input_vcf_path}
             bcftools index -t ~{input_vcf_path}
         fi
 
@@ -66,14 +67,6 @@ task annotate {
         sudo tar -xzf ~{seqrepo_tarball} --directory=$HOME
         sudo chown "$(whoami)" $SEQREPO_DIR
         seqrepo --root-directory $SEQREPO_DIR update-latest
-
-        # change permissions on vcf path
-        echo user: $(whoami)
-        ls -l $SEQREPO_DIR
-        ls -l ~{input_vcf_path}
-        sudo chown "$(whoami)" ~{input_vcf_path}
-        sudo chmod 644
-        ls -l ~{input_vcf_path}
 
         # add runtime flags
         if ~{compute_for_ref}; then
