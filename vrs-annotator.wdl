@@ -52,6 +52,7 @@ task annotate {
         if [[ ~{input_vcf_path} == *.gz ]]; then
             echo "creating index for input VCF"
             sudo chown "$(whoami)" ~{input_vcf_path}
+            sudo chmod 644 ~{input_vcf_path}
             bcftools index -t ~{input_vcf_path}
         fi
 
