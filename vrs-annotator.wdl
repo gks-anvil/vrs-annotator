@@ -66,6 +66,11 @@ task annotate {
         sudo chown "$(whoami)" $SEQREPO_DIR
         seqrepo --root-directory $SEQREPO_DIR update-latest
 
+        # change permissions on vcf path
+        echo user: $USER
+        ls -l ~{input_vcf_path}
+        sudo chown "$(whoami)" ~{input_vcf_path}
+
         # add runtime flags
         if ~{compute_for_ref}; then
             REF_FLAG=""
