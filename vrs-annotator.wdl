@@ -67,9 +67,12 @@ task annotate {
         seqrepo --root-directory $SEQREPO_DIR update-latest
 
         # change permissions on vcf path
-        echo user: $USER
+        echo user: $(whoami)
+        ls -l $SEQREPO_DIR
         ls -l ~{input_vcf_path}
         sudo chown "$(whoami)" ~{input_vcf_path}
+        sudo chmod 644
+        ls -l ~{input_vcf_path}
 
         # add runtime flags
         if ~{compute_for_ref}; then
