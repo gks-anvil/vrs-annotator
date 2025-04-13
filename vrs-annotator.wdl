@@ -37,7 +37,7 @@ task annotate {
         String genome_assembly
     }
 
-    Int disk_size = ceil(3*size(input_vcf_path, "GB") + size(seqrepo_tarball, "GB") + 20)
+    Int disk_size = ceil(4*size(input_vcf_path, "GB") + 2*size(seqrepo_tarball, "GB") + 20)
 
     runtime {
         docker: "quay.io/ohsu-comp-bio/vrs-annotator:vrs-2.0_oom_fix"
