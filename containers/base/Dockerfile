@@ -19,9 +19,10 @@ RUN cd ~/htslib && \
     make install
 
 
-RUN pip install ga4gh.vrs[extras]@git+https://github.com/ga4gh/vrs-python.git@vcf-collection-memory && \
+RUN pip install ga4gh.vrs[extras]~=2.1.0 && \
     pip install biocommons.seqrepo
 
-RUN sudo apt-get update && sudo apt-get install -y rsync
+RUN sudo apt-get update && \
+    sudo apt-get install -y rsync
 
 CMD ["/bin/bash"]

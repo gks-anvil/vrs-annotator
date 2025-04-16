@@ -40,11 +40,10 @@ task annotate {
     Int disk_size = ceil(4*size(input_vcf_path, "GB") + 2*size(seqrepo_tarball, "GB") + 20)
 
     runtime {
-        docker: "quay.io/ohsu-comp-bio/vrs-annotator:vrs-2.0_oom_fix"
+        docker: "quay.io/ohsu-comp-bio/vrs-annotator:vrs-2.0"
         disks: "local-disk " + disk_size + " SSD"
         bootDiskSizeGb: disk_size
         memory: "16G"
-        preemptible: 0
     }
 
     command <<<
