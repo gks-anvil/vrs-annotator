@@ -9,6 +9,7 @@ workflow VRSAnnotator {
         Boolean compute_for_ref = true
         Boolean compute_vrs_attributes = true
         String genome_assembly = "GRCh38"
+        Int memory_in_gb = 16
     }
 
     call annotate {
@@ -18,7 +19,8 @@ workflow VRSAnnotator {
             seqrepo_tarball = seqrepo_tarball,
             compute_for_ref = compute_for_ref,
             compute_vrs_attributes = compute_vrs_attributes,
-            genome_assembly = genome_assembly
+            genome_assembly = genome_assembly,
+            memory_in_gb = memory_in_gb
     }
 
     output {
@@ -35,6 +37,7 @@ task annotate {
         Boolean compute_for_ref
         Boolean compute_vrs_attributes
         String genome_assembly
+        Int memory_in_gb = 16
     }
 
     Int disk_size = ceil(4*size(input_vcf_path, "GB") + 2*size(seqrepo_tarball, "GB") + 20)
@@ -43,7 +46,7 @@ task annotate {
         docker: "quay.io/ohsu-comp-bio/vrs-annotator:vrs-2.0"
         disks: "local-disk " + disk_size + " SSD"
         bootDiskSizeGb: disk_size
-        memory: "16G"
+        memory: memory_in_gb + "G"
     }
 
     command <<<
