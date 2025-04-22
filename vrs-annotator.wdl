@@ -9,7 +9,7 @@ workflow VRSAnnotator {
         Boolean compute_for_ref = true
         Boolean compute_vrs_attributes = true
         String genome_assembly = "GRCh38"
-        Int memory_in_gb = 16
+        Int memory_in_gb = 8
     }
 
     call annotate {
@@ -37,7 +37,7 @@ task annotate {
         Boolean compute_for_ref
         Boolean compute_vrs_attributes
         String genome_assembly
-        Int memory_in_gb = 16
+        Int memory_in_gb = 8
     }
 
     Int disk_size = ceil(4*size(input_vcf_path, "GB") + 2*size(seqrepo_tarball, "GB") + 20)
