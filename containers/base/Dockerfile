@@ -10,15 +10,6 @@ RUN cd ~ && \
     make install && \
     export BCFTOOLS_PLUGINS=~/bcftools/plugins/
 
-# get tabix
-RUN cd ~/htslib && \
-    autoheader && \
-    autoconf && \
-    ./configure prefix=$HOME && \
-    make && \
-    make install
-
-
 RUN pip install ga4gh.vrs[extras]~=2.1.0 && \
     pip install biocommons.seqrepo
 
