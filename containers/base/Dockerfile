@@ -10,8 +10,10 @@ RUN cd ~ && \
     make install && \
     export BCFTOOLS_PLUGINS=~/bcftools/plugins/
 
-RUN pip install ga4gh.vrs[extras]==2.0.0a7 biocommons.seqrepo
+RUN pip install ga4gh.vrs[extras]~=2.1.0 && \
+    pip install biocommons.seqrepo
 
-RUN sudo apt-get update && sudo apt-get install -y rsync
+RUN sudo apt-get update && \
+    sudo apt-get install -y rsync
 
 CMD ["/bin/bash"]

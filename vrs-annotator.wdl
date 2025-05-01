@@ -4,11 +4,12 @@ version 1.0
 workflow VRSAnnotator {
     input {
         File input_vcf_path
-        String output_vcf_name 
+        String output_vcf_name
         File seqrepo_tarball
         Boolean compute_for_ref = true
         Boolean compute_vrs_attributes = true
         String genome_assembly = "GRCh38"
+        Int memory_in_gb = 8
     }
 
     call annotate {
@@ -18,7 +19,8 @@ workflow VRSAnnotator {
             seqrepo_tarball = seqrepo_tarball,
             compute_for_ref = compute_for_ref,
             compute_vrs_attributes = compute_vrs_attributes,
-            genome_assembly = genome_assembly
+            genome_assembly = genome_assembly,
+            memory_in_gb = memory_in_gb
     }
 
     output {
@@ -35,15 +37,16 @@ task annotate {
         Boolean compute_for_ref
         Boolean compute_vrs_attributes
         String genome_assembly
+        Int memory_in_gb = 8
     }
 
-    Int disk_size = ceil(size(input_vcf_path, "GB") + size(seqrepo_tarball, "GB") + 10)
+    Int disk_size = ceil(4*size(input_vcf_path, "GB") + 2*size(seqrepo_tarball, "GB") + 20)
 
     runtime {
-        docker: "quay.io/ohsu-comp-bio/vrs-annotator:base"
+        docker: "quay.io/ohsu-comp-bio/vrs-annotator:vrs-2.1.0"
         disks: "local-disk " + disk_size + " SSD"
         bootDiskSizeGb: disk_size
-        memory: "8G"
+        memory: memory_in_gb + "G"
     }
 
     command <<<
@@ -70,24 +73,23 @@ task annotate {
         if ~{compute_for_ref}; then
             REF_FLAG=""
         else
-            REF_FLAG="--skip_ref"
+            REF_FLAG="--skip-ref"
         fi
-        
+
         if ~{compute_vrs_attributes}; then
-            VRS_ATTRIBUTES_FLAG="--vrs_attributes"
+            VRS_ATTRIBUTES_FLAG="--vrs-attributes"
         else
             VRS_ATTRIBUTES_FLAG=""
         fi
 
         # annotate and index vcf
-        python -m ga4gh.vrs.extras.vcf_annotation \
-            --vcf_in ~{input_vcf_path} \
-            --vcf_out ~{output_vcf_name} \
-            --seqrepo_root_dir $SEQREPO_DIR/latest \
+        vrs-annotate vcf ~{input_vcf_path} \
+            --vcf-out ~{output_vcf_name} \
+            --dataproxy-uri seqrepo+file://$SEQREPO_DIR/latest \
             --assembly ~{genome_assembly} \
             $REF_FLAG \
             $VRS_ATTRIBUTES_FLAG
-        
+
         bcftools index -t ~{output_vcf_name}
     >>>
 
