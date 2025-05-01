@@ -14,6 +14,7 @@ To get started, navigate to the [VRS AnVIL](https://app.terra.bio/#workspaces/te
 - `compute_for_ref` (boolean, optional): Whether to compute both the ref and alt allele or compute only the alt allele for each variant. Defaults to true, computing both.
 - `compute_vrs_attributes` (boolean, optional): Whether to include VRS Allele start, end, and state or compute only VRS ID for each variant. Defaults to true, computing both.
 - `genome_assembly` (String, optional): genome assembly or genome build used by the VCF. Defaults to "GRCh38", but "GRCh37" is also supported.
+- `memory` (Int, optional): Memory allocated to the instance. Defaults to 8GB. Cost is scaled to memory, so for most jobs, the performance-to-cost ratio  will be most effective around 8GB.
 
 
 ## Outputs
