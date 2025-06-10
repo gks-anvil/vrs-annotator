@@ -1,4 +1,4 @@
-FROM circleci/python:3.10
+FROM cimg/python:3.10
 
 # Clone repositories and build bcftools
 RUN cd ~ && \
